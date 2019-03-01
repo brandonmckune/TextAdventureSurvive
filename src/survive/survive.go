@@ -2,12 +2,27 @@ package main
 
 import(
 	"fmt"
-	"engine"
+	//"engine"
+	"gameio"
+)
+
+var(
+	continueRunning = true
 )
 
 func main(){
-	fmt.Println("Hello")
-	engine.Engine()
-	var option string
-	fmt.Scanln(&option)
+	gameio.ClearConsole()
+	gameio.PrintGameStart()
+
+	for continueRunning {
+		fmt.Println("Continue running top of loop")
+		var option string
+		fmt.Scanln(&option)
+
+		gameio.HandleGameInput(option, &continueRunning)
+
+		fmt.Println("Coninue running...", continueRunning)
+	}
+
+	gameio.PrintThanksForPlaying()
 }
