@@ -2,20 +2,12 @@ package main
 
 import(
 	"fmt"
+	"engine"
 )
-
-var(
-
-)
-
-func init(){
-
-}
 
 func main(){
 	fmt.Println("Hello")
-
-	
+	engine.Engine()
 	var option string
 	fmt.Scanln(&option)
 }
