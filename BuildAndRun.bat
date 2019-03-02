@@ -10,4 +10,5 @@ if errorlevel 1 (
 )
 
 go install survive
+COPY src/data.wad bin/data.wad
 START /max bin/survive.exe
