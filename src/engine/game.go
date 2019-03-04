@@ -65,20 +65,20 @@ func (gd *GameDetails) DisplayScreen(screenName string) {
 	if screen, found := gd.Screens[screenName]; found {
 		ClearConsole()
 		screen.Print()
+	} else {
+		//TODO: Log invalid display
+		fmt.Println("Screen is invalid! Screen Name:[", screenName, "]")
 	}
-
-	//TODO: Log invalid display
-	fmt.Println("Screen is invalid! Screen Name:[", screenName, "]")
 }
 
 func (gd *GameDetails) DisplayLevel(levelName string) {
 	gd.validateLevels()
-	
+
 	if level, found := gd.Levels[levelName]; found {
 		ClearConsole()
 		level.Print()
+	} else {
+		//TODO: Log invalid display
+		fmt.Println("Level is invalid! Level Name:[", levelName, "]")
 	}
-	
-	//TODO: Log invalid display
-	fmt.Println("Level is invalid! Level Name:[", levelName, "]")
 }

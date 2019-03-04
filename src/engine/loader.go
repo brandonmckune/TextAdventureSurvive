@@ -38,13 +38,14 @@ func LoadDefaultData(game *GameDetails) {
 		game = new(GameDetails)
 	}
 
-	fmt.Print("Game Loading")
+	fmt.Println("Game loading ")
 	loadScreens(game)
 	loadLevels(game)
+	fmt.Println("Game finished loading.")
 }
 
 func loadScreens(game *GameDetails) {
-
+	fmt.Print("Loading screens ")
 	file, err := os.OpenFile(screensFilePath, os.O_RDONLY, 0755)
 	check(err)
 	reader := bufio.NewReader(file)
@@ -82,9 +83,12 @@ func loadScreens(game *GameDetails) {
 			game.AddScreen(screenSequence, newScreen)
 		}
 	}
+
+	fmt.Println("finished successfully")
 }
 
 func loadLevels(game *GameDetails) {
+	fmt.Print("Loading levels ")
 	file, err := os.OpenFile(levelsFilePath, os.O_RDONLY, 0755)
 	check(err)
 	reader := bufio.NewReader(file)
@@ -122,4 +126,6 @@ func loadLevels(game *GameDetails) {
 
 		myLine, err = reader.ReadString('\n')
 	}
+	
+	fmt.Println("finished successfully")
 }
