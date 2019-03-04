@@ -102,15 +102,14 @@ func loadLevels(game *GameDetails) {
 	 * 3. Update Object
 	 */
 	for err != io.EOF {
+
+		// Build out Map
 		if strings.Contains(myLine, DELIMITER) {
 			fmt.Print(".") // status load indicator
-			parts := strings.Split(myLine, DELIMITER)
-
-			if len(parts) != 3 {
-				panic("Failed to load levels.wad file.")
-			}
-			mapId := parts[0]
+			
 			newLevel := new(LevelDetails)
+			newLevel.ParseAndHandleDetailsString(myLine)	
+
 			myLine, err = reader.ReadString('\n')
 			check(err)
 
@@ -121,7 +120,7 @@ func loadLevels(game *GameDetails) {
 				check(err)
 			}
 
-			game.AddLevel(mapId, newLevel)
+			game.AddLevel(newLevel.Id, newLevel)
 		}
 
 		myLine, err = reader.ReadString('\n')

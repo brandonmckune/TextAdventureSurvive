@@ -11,10 +11,11 @@ const (
 )
 
 type GameDetails struct {
-	Levels  map[string]*LevelDetails
-	Screens map[string]*ScreenDetails
-	LastScreen *ScreenDetails
-	Player  PlayerDetails
+	Levels       map[string]*LevelDetails
+	Screens      map[string]*ScreenDetails
+	LastScreen   *ScreenDetails
+	CurrentLevel *LevelDetails
+	Player       *PlayerDetails
 }
 
 func init() {
@@ -22,8 +23,30 @@ func init() {
 }
 
 func (gd *GameDetails) NewGame(){
-	gd.DisplayLevel(GAMESTART)
+	gd.Player = new(PlayerDetails)
+	gd.Player.Init("Jeremy")
+	gd.CurrentLevel = gd.GetLevel(GAMESTART)
+
+	gd.Player.Location = gd.CurrentLevel.StartPosition
+	gd.CurrentLevel.AddPlayer(gd.Player)
+
+	gd.DisplayLevel()
 }
+
+func (gd *GameDetails) MoveNorth(spaces int){
+
+	//TODO object detection
+
+	if gd.Player.Location.X - spaces < 0 {
+		gd.Player.UpdatePosition(0, gd.Player.Location.Y, "north")
+	} else {
+		gd.Player.UpdatePosition(gd.Player.Location.X - spaces,  gd.Player.Location.Y, "north")
+	}
+
+	gd.CurrentLevel.UpdatePlayer(gd.Player)
+	gd.DisplayLevel()
+}
+
 
 func (gd *GameDetails) validateScreens(){
 	if gd.Screens == nil {
@@ -73,7 +96,25 @@ func (gd *GameDetails) DisplayScreen(screenName string) {
 	}
 }
 
-func (gd *GameDetails) DisplayLevel(levelName string) {
+func (gd *GameDetails) GetLevel(levelName string) *LevelDetails {
+	gd.validateLevels()
+
+	if level, found := gd.Levels[levelName]; found {
+		return level
+	} else {
+		//TODO: Log invalid display
+		panicString := "Level is invalid! Level Name:[" + levelName + "]"
+		//fmt.Println(panicString)
+		panic(panicString)
+	}
+}
+
+func (gd *GameDetails) DisplayLevel() {
+	ClearConsole()
+	gd.CurrentLevel.Print()
+}
+
+func (gd *GameDetails) DisplayLevelByName(levelName string) {
 	gd.validateLevels()
 
 	if level, found := gd.Levels[levelName]; found {

@@ -12,6 +12,8 @@ var (
 	continueRunning = true
 	action          string
 	game            engine.GameDetails
+	fakeInput		string
+	isDebug			= true
 )
 
 func init() {
@@ -19,10 +21,16 @@ func init() {
 	engine.LoadDefaultData(&game)
 	engine.ClearConsole()
 	game.DisplayScreen(STARTSCREEN)
+	fakeInput = "n"
 }
 
 func main() {
+
+	if isDebug {
+		engine.RetreiveAndHandleGameInput(&game, &continueRunning, &fakeInput)
+	}
+
 	for continueRunning {
-		engine.RetreiveAndHandleGameInput(&game, &continueRunning)
+		engine.RetreiveAndHandleGameInput(&game, &continueRunning, nil)
 	}
 }

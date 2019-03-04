@@ -18,6 +18,7 @@ func buildActionsMap() {
 	actions[GetHash("l")] = loadGame
 	actions[GetHash("h")] = displayHelp
 	actions[GetHash("q")] = quitGame
+	actions[GetHash("north")] = goNorth
 }
 
 func newGame(game *GameDetails, _ *bool) {
@@ -36,8 +37,18 @@ func quitGame(_ *GameDetails, continueRunning *bool) {
 	*continueRunning = false
 }
 
-func RetreiveAndHandleGameInput(game *GameDetails, continueRunning *bool) {
-	action := RetreiveGameInput()
+func goNorth(game *GameDetails, _ *bool){
+	game.MoveNorth(1)
+}
+
+func RetreiveAndHandleGameInput(game *GameDetails, continueRunning *bool, option *string) {
+	var action string
+
+	if option == nil {
+		action = RetreiveGameInput()
+	} else{
+		action = *option
+	}
 	HandleGameInput(action, game, continueRunning)
 }
 
