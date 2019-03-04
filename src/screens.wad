@@ -1,0 +1,77 @@
+0::40::
+|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|
+|******************************************************************************|
+|  ########  ##     ##  ########   ##     ## ######  ##     ##  #########      |
+| ##         ##     ##  ##     ##  ##     ##   ##    ##     ##  ##             |
+|  ##        ##     ##  ##     ##  ##     ##   ##    ##     ##  ##             |
+|   ####     ##     ##  ########    ##   ##    ##     ##   ##   #######        |
+|       ##   ##     ##  ##    ##    ##   ##    ##     ##   ##   ##             |
+|        ##   ##   ##   ##     ##   ##   ##    ##     ##   ##   ##             |
+| ########     ####     ##     ##     ###    ######     ###     #########  ##  |
+|******************************************************************************|
+|                                                                              |
+| Survive the post apocalyptic alien invasion in a post apocalyptic world.     |
+|                                                                              |
+|                                                   ______                     |
+|                                              ____/      \____                |
+|                                             /    '------'    \               |
+|  \0/                                        '---__________---'               |
+|   |                                                <==>                      |
+|  / \                                                ||                       |
+|                                                     ||                       |
+| Game developed by:                                  ||                       |
+|    Brandon McKune                                   ||                       |
+|                                                * *  ||  * *                  |
+| Source:                                     * *  !*\\//*!  * *               |
+|    https://github.com/brandonmckune/TextAdventureSurvive..git                |
+|                                                                              |
+| Game built entirely using Google's GoLang. This is my first attempt at       |
+| writing a game AND developing in Go.                                         |
+|                                                                              |
+|                                                                              |
+|                                                                              |
+|##############################################################################|
+|                                                                              |
+| [N] - New Game                                                               |
+| [L] - Load Game                                                              |
+| [H] - Help                                                                   |
+| [Q] - Quit                                                                   |
+|                                                                              |
+|##############################################################################|
+|!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!|
+Help::33::
+|##############################################################################|
+Here you will find details on the map icons. 
+
+--WALLS--
+═║╔ ╗╚ ╝╠ ╣ ╦ ╩ ╬ - Thich Walls
+─│┌ ┐└ ┘├ ┤┬ ┴ ┼ - Thin Walls
+╒ ╓ ╕ ╖ ╘ ╙ ╞ ╟ ╡ ╢ ╤ ╥ ╧ ╨ ╪ ╫ - Transition Walls
+
+--ENVIRONMENT ITEMS--
+Ŧ - Power Lines
+ʭ - Graves
+† - Church
+ʬ - Vehicle
+Π - Door
+Ͳ - Big Tree (Think Red Oak)
+ͳ - Small Tree (think sapling)
+Χ - Deseased Organism
+֍ - Safety
+
+--BIOLOGICAL ENTITIES--
+Ο - Alien Drone
+ϴ - Small Alien Attack Ship
+Ѯ - Reptilian Alien
+ӂ - Female Human Child
+Ӂ - Female Human Adult
+Ӝ - Male Human Adult
+ӝ - Male Human Child
+Ӫ - Large Alien W/ Weapon
+ӫ - Small Alien w/ Weapon
+Ӧ - Large Alien
+ӧ - Small Alien
+Ӿ - Big Animal (dangerous)
+ӿ - Small Animal
+ᴥ - Mind Flayer
+|##############################################################################|

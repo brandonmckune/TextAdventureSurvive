@@ -10,5 +10,7 @@ if errorlevel 1 (
 )
 
 go install survive
-COPY src/data.wad bin/data.wad
+
+for /R src %%f in (*.wad) do copy "%%f" bin
+
 START /max bin/survive.exe

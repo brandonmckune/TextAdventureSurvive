@@ -1,3 +1,5 @@
 *.exe
 /bin
 /pkg
+/src/github.com/*
+/src/survive/debug
