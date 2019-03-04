@@ -1,6 +1,6 @@
 package engine
 
-import(
+import (
 	"fmt"
 )
 
@@ -8,21 +8,21 @@ const (
 	NONPLAYERICON = " "
 )
 
-var(
-
-)
+var ()
 
 type TileDetails struct {
-	MapIcon string
+	OldIcon  string
+	MapIcon  string
 	Location *PositionDetails
 }
 
-func (t *TileDetails) AddPlayer(p *PlayerDetails){
+func (t *TileDetails) AddPlayer(p *PlayerDetails) {
+	t.OldIcon = t.MapIcon
 	t.MapIcon = p.Icon
 }
 
-func (t *TileDetails) RemovePlayer(){
-	t.MapIcon = NONPLAYERICON
+func (t *TileDetails) RemovePlayer() {
+	t.MapIcon = t.OldIcon
 }
 
 func (t *TileDetails) CheckLocationCreated() {
@@ -31,17 +31,17 @@ func (t *TileDetails) CheckLocationCreated() {
 	}
 }
 
-func (t *TileDetails) AddLocationPosition(pos *PositionDetails){
+func (t *TileDetails) AddLocationPosition(pos *PositionDetails) {
 	t.CheckLocationCreated()
 	t.Location = pos
 }
 
-func (t *TileDetails) AddLocationXY(x int, y int){
+func (t *TileDetails) AddLocationXY(x int, y int) {
 	t.CheckLocationCreated()
 	t.Location.X = x
 	t.Location.Y = y
 }
 
-func (t TileDetails) PrintTile(){
+func (t TileDetails) PrintTile() {
 	fmt.Println("Tile: ", t.MapIcon, ", Position: ", t.Location.X, ", ", t.Location.Y)
 }
