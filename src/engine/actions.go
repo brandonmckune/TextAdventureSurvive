@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	actions = make(map[uint64]func(*bool))
+	actions = make(map[uint64]func(*GameDetails, *bool))
 )
 
 func init() {
@@ -16,13 +16,18 @@ func init() {
 func buildActionsMap() {
 	actions[GetHash("n")] = newGame
 	actions[GetHash("q")] = quitGame
+	actions[GetHash("h")] = displayHelp
 }
 
-func newGame(_ *bool) {
+func displayHelp(game *GameDetails, _ *bool) {
+	game.DisplayScreen("Help")
+}
+
+func newGame(_ *GameDetails, _ *bool) {
 
 }
 
-func quitGame(continueRunning *bool) {
+func quitGame(_ *GameDetails, continueRunning *bool) {
 	*continueRunning = false
 }
 
@@ -41,7 +46,7 @@ func HandleGameInput(input string, game *GameDetails, continueRunning *bool) {
 	input = strings.ToLower(input)
 
 	if action, found := actions[GetHash(input)]; found {
-		action(continueRunning)
+		action(game, continueRunning)
 	} else {
 		//TODO: add logging for incorrect functionality
 		fmt.Println("No action found....")
