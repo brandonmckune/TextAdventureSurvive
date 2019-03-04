@@ -13,7 +13,7 @@ var (
 	action          string
 	game            engine.GameDetails
 	fakeInput		string
-	isDebug			= true
+	isDebug			= false
 )
 
 func init() {

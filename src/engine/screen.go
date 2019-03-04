@@ -28,7 +28,7 @@ func (d *ScreenDetails) LoadRow(row string, rowIndex int) {
 }
 
 func (d *ScreenDetails) ParseAndHandleDetailsString(line string){
-	parts := strings.Split(line, DELIMITER)
+	parts := strings.Split(line, FILE_DELIMITER)
 	d.ParseAndHandleDetailsArray(parts)
 }
 

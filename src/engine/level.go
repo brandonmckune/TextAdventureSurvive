@@ -79,7 +79,7 @@ func (d *LevelDetails) AddConnectingLevel(key string, level *LevelDetails) {
 }
 
 func (d *LevelDetails) ParseAndHandleDetailsString(line string){
-	parts := strings.Split(line, DELIMITER)
+	parts := strings.Split(line, FILE_DELIMITER)
 	d.ParseAndHandleDetailsArray(parts)
 }
 

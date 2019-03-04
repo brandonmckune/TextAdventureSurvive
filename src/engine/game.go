@@ -47,6 +47,48 @@ func (gd *GameDetails) MoveNorth(spaces int){
 	gd.DisplayLevel()
 }
 
+func (gd *GameDetails) MoveSouth(spaces int){
+
+	//TODO object detection
+
+	if gd.Player.Location.X + spaces >= DISPLAYHEIGHT {
+		gd.Player.UpdatePosition(DISPLAYHEIGHT - 1, gd.Player.Location.Y, "south")
+	} else {
+		gd.Player.UpdatePosition(gd.Player.Location.X + spaces,  gd.Player.Location.Y, "south")
+	}
+
+	gd.CurrentLevel.UpdatePlayer(gd.Player)
+	gd.DisplayLevel()
+}
+
+func (gd *GameDetails) MoveEast(spaces int){
+
+	//TODO object detection
+
+	if gd.Player.Location.Y + spaces >= DISPLAYWIDTH {
+		gd.Player.UpdatePosition(gd.Player.Location.X, DISPLAYWIDTH - 1, "east")
+	} else {
+		gd.Player.UpdatePosition(gd.Player.Location.X,  gd.Player.Location.Y + spaces, "east")
+	}
+
+	gd.CurrentLevel.UpdatePlayer(gd.Player)
+	gd.DisplayLevel()
+}
+
+func (gd *GameDetails) MoveWest(spaces int){
+
+	//TODO object detection
+
+	if gd.Player.Location.Y - spaces < 0 {
+		gd.Player.UpdatePosition(gd.Player.Location.X, 0, "west")
+	} else {
+		gd.Player.UpdatePosition(gd.Player.Location.X,  gd.Player.Location.Y - spaces, "west")
+	}
+
+	gd.CurrentLevel.UpdatePlayer(gd.Player)
+	gd.DisplayLevel()
+}
+
 
 func (gd *GameDetails) validateScreens(){
 	if gd.Screens == nil {

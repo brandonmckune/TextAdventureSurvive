@@ -11,7 +11,7 @@ import (
 const (
 	LEVELS    = "/bin/levels.wad"
 	SCREENS   = "/bin/screens.wad"
-	DELIMITER = "::"
+	FILE_DELIMITER = "::"
 	SCREEN    = "screen"
 	LEVEL     = "level"
 )
@@ -59,9 +59,9 @@ func loadScreens(game *GameDetails) {
 	 * 3. Update Object
 	 */
 	for err != io.EOF {
-		if strings.Contains(myLine, DELIMITER) {
+		if strings.Contains(myLine, FILE_DELIMITER) {
 			fmt.Print(".") // status load indicator
-			parts := strings.Split(myLine, DELIMITER)
+			parts := strings.Split(myLine, FILE_DELIMITER)
 
 			if len(parts) > 3 {
 				panic("Failed to load screens.wad file.")
@@ -74,7 +74,7 @@ func loadScreens(game *GameDetails) {
 			check(err)
 
 			//Buid out the screen
-			for idx := 0; err != io.EOF && !strings.Contains(myLine, DELIMITER); idx++ {
+			for idx := 0; err != io.EOF && !strings.Contains(myLine, FILE_DELIMITER); idx++ {
 				newScreen.LoadRow(myLine, idx)
 				myLine, err = reader.ReadString('\n')
 				check(err)
@@ -104,7 +104,7 @@ func loadLevels(game *GameDetails) {
 	for err != io.EOF {
 
 		// Build out Map
-		if strings.Contains(myLine, DELIMITER) {
+		if strings.Contains(myLine, FILE_DELIMITER) {
 			fmt.Print(".") // status load indicator
 			
 			newLevel := new(LevelDetails)
@@ -114,7 +114,7 @@ func loadLevels(game *GameDetails) {
 			check(err)
 
 			//Buid out the screen
-			for idx := 0; idx < DISPLAYHEIGHT && err != io.EOF && !strings.Contains(myLine, DELIMITER); idx++ {
+			for idx := 0; idx < DISPLAYHEIGHT && err != io.EOF && !strings.Contains(myLine, FILE_DELIMITER); idx++ {
 				newLevel.LoadRow(myLine, idx)
 				myLine, err = reader.ReadString('\n')
 				check(err)
