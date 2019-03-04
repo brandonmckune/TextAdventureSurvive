@@ -10,7 +10,7 @@
 | ########     ####     ##     ##     ###    ######     ###     #########  ##  |
 |******************************************************************************|
 |                                                                              |
-| Survive the post apocalyptic alien invasion in a post apocalyptic world.     |
+| Survive the post apocalyptic alien invasion.                                 |
 |                                                                              |
 |                                                   ______                     |
 |                                              ____/      \____                |
@@ -74,4 +74,12 @@ Here you will find details on the map icons.
 Ӿ - Big Animal (dangerous)
 ӿ - Small Animal
 ᴥ - Mind Flayer
+ᵜ - Small Mind Flayer
+
+--CHARACTER--
+▲ - Looking North
+► - Looking East
+▼ - Looking South
+◄ - Looking West
+◊ - Normal
 |##############################################################################|

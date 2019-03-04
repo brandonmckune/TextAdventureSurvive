@@ -15,16 +15,21 @@ func init() {
 
 func buildActionsMap() {
 	actions[GetHash("n")] = newGame
-	actions[GetHash("q")] = quitGame
+	actions[GetHash("l")] = loadGame
 	actions[GetHash("h")] = displayHelp
+	actions[GetHash("q")] = quitGame
+}
+
+func newGame(game *GameDetails, _ *bool) {
+	game.NewGame()
+}
+
+func loadGame(_ *GameDetails, _ *bool) {
+	fmt.Println("Load Game is not currently available.")
 }
 
 func displayHelp(game *GameDetails, _ *bool) {
 	game.DisplayScreen("Help")
-}
-
-func newGame(_ *GameDetails, _ *bool) {
-
 }
 
 func quitGame(_ *GameDetails, continueRunning *bool) {

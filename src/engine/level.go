@@ -6,7 +6,7 @@ import (
 
 type LevelDetails struct {
 	ConnectingLevels map[string]*LevelDetails
-	Details          [DISPLAYHEIGHT][DISPLAYWIDTH]string
+	Details          [DISPLAYHEIGHT][DISPLAYWIDTH] *TileDetails
 }
 
 var ()
@@ -29,7 +29,11 @@ func (d LevelDetails) LoadRow(row string, rowIndex int) {
 			break
 		}
 
-		d.Details[rowIndex][idx] = string(char)
+		tile := new(TileDetails)
+		tile.MapIcon = string(char)
+		tile.AddLocationXY(rowIndex, idx)
+
+		d.Details[rowIndex][idx] = tile
 	}
 }
 
@@ -52,7 +56,7 @@ func (d LevelDetails) GetLevel(key string) *LevelDetails {
 func (ld LevelDetails) Print() {
 	for idy := 0; idy < len(ld.Details); idy++ {
 		for idx := 0; idx < len(ld.Details[idy]); idx++ {
-			fmt.Print(ld.Details[idy][idx])
+			fmt.Print(ld.Details[idy][idx].MapIcon)
 		}
 		fmt.Print("\n")
 	}

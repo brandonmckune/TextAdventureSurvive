@@ -5,7 +5,7 @@ import (
 )
 
 type ScreenDetails struct {
-	Details [DISPLAYHEIGHT]string
+	Details [DISPLAYWIDTH]string
 }
 
 func (sd *ScreenDetails) Print() {
@@ -15,7 +15,7 @@ func (sd *ScreenDetails) Print() {
 }
 
 func (d *ScreenDetails) LoadRow(row string, rowIndex int) {
-	if rowIndex < 0 || rowIndex > 79 {
+	if rowIndex < 0 || rowIndex > DISPLAYWIDTH {
 		fmt.Println("Invalid row index passed in LoadRow(", rowIndex, ")")
 		panic(-1)
 	}

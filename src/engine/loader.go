@@ -103,7 +103,7 @@ func loadLevels(game *GameDetails) {
 			parts := strings.Split(myLine, DELIMITER)
 
 			if len(parts) != 3 {
-				panic("Failed to load screens.wad file.")
+				panic("Failed to load levels.wad file.")
 			}
 			mapId := parts[0]
 			newLevel := new(LevelDetails)

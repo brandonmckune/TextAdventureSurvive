@@ -3,3 +3,5 @@
 /pkg
 /src/github.com/*
 /src/survive/debug
+.vscode/*
+BuildAndRun.bat
