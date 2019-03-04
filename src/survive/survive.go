@@ -18,14 +18,11 @@ func init() {
 	engine.ClearConsole()
 	engine.LoadDefaultData(&game)
 	engine.ClearConsole()
+	game.DisplayScreen(STARTSCREEN)
 }
 
 func main() {
-	game.DisplayScreen(STARTSCREEN)
-	engine.RetreiveAndHandleGameInput(&game, &continueRunning)
-
 	for continueRunning {
-
 		engine.RetreiveAndHandleGameInput(&game, &continueRunning)
 	}
 }

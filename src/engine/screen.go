@@ -16,8 +16,9 @@ func (sd *ScreenDetails) Print() {
 
 func (d *ScreenDetails) LoadRow(row string, rowIndex int) {
 	if rowIndex < 0 || rowIndex > DISPLAYWIDTH {
-		fmt.Println("Invalid row index passed in LoadRow(", rowIndex, ")")
-		panic(-1)
+		panicString := "Invalid row index passed in LoadRow(" + string(rowIndex) + ")"
+		fmt.Println(panicString)
+		//panic(panicString)
 	}
 
 	d.Details[rowIndex] = row

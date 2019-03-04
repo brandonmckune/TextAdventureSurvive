@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"fmt"
 )
 
 var (
@@ -29,6 +30,8 @@ func ClearConsole() {
 	if action, found := OSListForClear[runtime.GOOS]; found {
 		action()
 	} else {
-		panic("You are playing on an unsupported OS. To disable clear functionality pass noclear to app start")
+		panicString := "You are playing on an unsupported OS. To disable clear functionality pass noclear to app start"
+		fmt.Println(panicString)
+		//panic(panicString)
 	}
 }

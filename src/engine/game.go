@@ -42,6 +42,7 @@ func (gd *GameDetails) AddScreen(sequenceKey string, screen *ScreenDetails) {
 
 	if _, found := gd.Screens[sequenceKey]; found {
 		panicString := "Screen of sequence [" + sequenceKey + "] already exists!"
+		//fmt.Println(panicString)
 		panic(panicString)
 	}
 
@@ -53,6 +54,7 @@ func (gd *GameDetails) AddLevel(levelId string, level *LevelDetails) {
 
 	if _, found := gd.Levels[levelId]; found {
 		panicString := "Level Id: [" + levelId + "] already exists!"
+		//fmt.Println(panicString)
 		panic(panicString)
 	}
 

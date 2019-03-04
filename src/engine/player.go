@@ -10,6 +10,7 @@ const(
 )
 
 var(
+	//TODO: Hardcoded directions icon mapping; pull from file
 	playerDirection = map[string] string {
 		"north":"▲", // ▲ - Looking North
 		"south":"►", // ► - Looking East

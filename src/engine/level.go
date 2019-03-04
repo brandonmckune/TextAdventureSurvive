@@ -18,10 +18,11 @@ func init() {
 /* LoadLevelRow allows the loader to read a single line from a file and insert that
  * data into the Level Details 2D array.
  */
-func (d LevelDetails) LoadRow(row string, rowIndex int) {
+func (d *LevelDetails) LoadRow(row string, rowIndex int) {
 	if rowIndex < 0 || rowIndex > 79 {
-		fmt.Println("Invalid row index passed in LoadRow(", rowIndex, ")")
-		panic(-1)
+		panicString := "Invalid row index passed in LoadRow(" + string(rowIndex) + ")"
+		fmt.Println(panicString)
+		//panic(panicString)
 	}
 
 	for idx, char := range row {
@@ -37,7 +38,7 @@ func (d LevelDetails) LoadRow(row string, rowIndex int) {
 	}
 }
 
-func (d LevelDetails) AddConnectingLevel(key string, level *LevelDetails) {
+func (d *LevelDetails) AddConnectingLevel(key string, level *LevelDetails) {
 	if _, found := d.ConnectingLevels[key]; !found {
 		d.ConnectingLevels[key] = level
 	}
@@ -50,7 +51,10 @@ func (d LevelDetails) GetLevel(key string) *LevelDetails {
 		return detail
 	}
 
-	panic("Level Not Found Exception was thrown!")
+	panicString := "Level Not Found Exception was thrown!"
+	fmt.Println(panicString)
+	//panic(panicString)
+	return nil
 }
 
 func (ld LevelDetails) Print() {

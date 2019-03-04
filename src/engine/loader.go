@@ -126,6 +126,6 @@ func loadLevels(game *GameDetails) {
 
 		myLine, err = reader.ReadString('\n')
 	}
-	
+
 	fmt.Println("finished successfully")
 }
