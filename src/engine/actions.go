@@ -1,18 +1,24 @@
 package engine
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
 	"strings"
 	//"strconv"
 )
 
-const(
+const (
 	ACTION_DELIMITER = " "
-	NO_ACTION = ""
+	NO_ACTION        = ""
+	ACTION_MOVE      = "MOVE"
+	ACTION_LOOK      = "LOOK"
+	ACTION_HIDE      = "HIDE"
 )
 
 var (
-	generalActions = make(map[uint64]func(*GameDetails, *bool, ...string))
+	generalActions = make(map[uint64]func(*GameDetails, *bool, []string))
 )
 
 func init() {
@@ -20,87 +26,85 @@ func init() {
 }
 
 func buildActionsMap() {
-	generalActions[GetHash("n")] = newGame
-	generalActions[GetHash("l")] = loadGame
-	generalActions[GetHash("h")] = displayHelp
-	generalActions[GetHash("q")] = quitGame
-	generalActions[GetHash("north")] = goNorth
-	generalActions[GetHash("south")] = goSouth
-	generalActions[GetHash("east")] = goEast
-	generalActions[GetHash("west")] = goWest
+	generalActions[GetHash("N")] = newGame
+	generalActions[GetHash("L")] = loadGame
+	generalActions[GetHash("H")] = displayHelp
+	generalActions[GetHash("Q")] = quitGame
+	generalActions[GetHash(ACTION_MOVE)] = move
 }
 
-func newGame(game *GameDetails, _ *bool, _ ... string) {
+func newGame(game *GameDetails, _ *bool, _ []string) {
 	game.NewGame()
 }
 
-func loadGame(_ *GameDetails, _ *bool, _ ... string) {
+func loadGame(_ *GameDetails, _ *bool, _ []string) {
 	fmt.Println("Load Game is not currently available.")
 }
 
-func displayHelp(game *GameDetails, _ *bool, _ ... string) {
+func displayHelp(game *GameDetails, _ *bool, _ []string) {
 	game.DisplayScreen("Help")
 }
 
-func quitGame(_ *GameDetails, continueRunning *bool, _ ... string) {
+func quitGame(_ *GameDetails, continueRunning *bool, _ []string) {
 	*continueRunning = false
 }
 
-func goNorth(game *GameDetails, _ *bool, vars ... string){
-	game.MoveNorth(1)
-}
-
-func goSouth(game *GameDetails, _ *bool, vars ... string){
-	game.MoveSouth(1)
-}
-
-func goEast(game *GameDetails, _ *bool, vars ... string){
-	game.MoveEast(1)
-}
-
-func goWest(game *GameDetails, _ *bool, vars ... string){
-	game.MoveWest(1)
-}
-
-func RetreiveAndHandleGameInput(game *GameDetails, continueRunning *bool, option *string) {
-	var action string
-
-	if option == nil {
-		action = RetreiveGameInput()
-	} else{
-		action = *option
+func move(game *GameDetails, _ *bool, vars []string) {
+	switch len(vars) {
+	case 1:
+		game.Move(vars[0], 1)
+	case 2:
+		tileNumber, err := strconv.Atoi(vars[1])
+		check(err)
+		game.Move(vars[0], tileNumber)
+	default:
+		fmt.Println("Invalid command. [north ", vars, "]")
 	}
-	HandleGameInput(action, game, continueRunning)
+}
+
+func RetreiveAndHandleGameInput(game *GameDetails, continueRunning *bool) {
+	var actions string
+
+	actions = RetreiveGameInput()
+	HandleGameInput(actions, game, continueRunning)
 }
 
 func RetreiveGameInput() string {
-	var input string
-	fmt.Scanln(&input)
-	return input
+	scanner := bufio.NewScanner(os.Stdin)
+	var userInput string
+
+	scanner.Scan()
+	userInput += scanner.Text()
+
+	if err := scanner.Err(); err != nil {
+		os.Exit(1)
+	}
+
+	return userInput
 }
 
 func HandleGameInput(input string, game *GameDetails, continueRunning *bool) {
-	input = strings.ToLower(input)
-
+	input = strings.ToUpper(input)
 	parts := strings.Split(input, ACTION_DELIMITER)
-		
+
+	fmt.Println(input)
+	fmt.Println(parts)
+
 	switch len(parts) {
 	case 1:
 		//general action defined by function
-		if action, found := generalActions[GetHash(input)]; found {
-			action(game, continueRunning, NO_ACTION)
+		if action, found := generalActions[GetHash(parts[0])]; found {
+			action(game, continueRunning, nil)
 		} else {
 			//TODO: add logging for incorrect functionality
-			fmt.Println("Command length 1: No action found....[", input, "]")
+			fmt.Println("Command length 1: No action found....[", parts, "]")
 		}
-	case 2: //move functions
+	default:
 		if action, found := generalActions[GetHash(parts[0])]; found {
-			action(game, continueRunning, parts[1])
+			action(game, continueRunning, parts[1:])
 		} else {
 			//TODO: add logging for incorrect functionality
 			fmt.Println("Command length 2: No action found....")
 		}
-	default:
-		fmt.Println("Cannot take action: ", input)
 	}
 }

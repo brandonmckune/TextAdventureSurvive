@@ -1,13 +1,18 @@
 package engine
 
-import(
+import (
 	"fmt"
+	"strings"
 )
 
 const (
-	DISPLAYHEIGHT int = 40
-	DISPLAYWIDTH  int = 80
-	GAMESTART string = "0"
+	DISPLAYHEIGHT int    = 40
+	DISPLAYWIDTH  int    = 80
+	GAMESTART     string = "0"
+	NORTH         string = "NORTH"
+	SOUTH         string = "SOUTH"
+	EAST          string = "EAST"
+	WEST          string = "WEST"
 )
 
 type GameDetails struct {
@@ -22,7 +27,7 @@ func init() {
 
 }
 
-func (gd *GameDetails) NewGame(){
+func (gd *GameDetails) NewGame() {
 	gd.Player = new(PlayerDetails)
 	gd.Player.Init("Jeremy")
 	gd.CurrentLevel = gd.GetLevel(GAMESTART)
@@ -33,70 +38,87 @@ func (gd *GameDetails) NewGame(){
 	gd.DisplayLevel()
 }
 
-func (gd *GameDetails) MoveNorth(spaces int){
+func (gd *GameDetails) Move(direction string, spaces int) *GameDetails {
+	//TODO object detection
+	//Adjust spaces based on object detection
+
+	successful := true
+	direction = strings.ToUpper(direction)
+
+	switch direction {
+	case NORTH:
+		gd.MoveNorth(spaces)
+	case SOUTH:
+		gd.MoveSouth(spaces)
+	case EAST:
+		gd.MoveEast(spaces)
+	case WEST:
+		gd.MoveWest(spaces)
+	default:
+		successful = false
+		validDirections := "[" + NORTH + ", " + SOUTH + ", " + EAST + ", " + WEST + "]"
+		fmt.Println("Invalid direction [", direction, "]. Values are ", validDirections)
+	}
+
+	if successful {
+		gd.CurrentLevel.UpdatePlayer(gd.Player)
+		gd.DisplayLevel()
+	}
+
+	return gd
+}
+
+func (gd *GameDetails) MoveNorth(spaces int) {
 
 	//TODO object detection
 
-	if gd.Player.Location.X - spaces < 0 {
+	if gd.Player.Location.X-spaces < 0 {
 		gd.Player.UpdatePosition(0, gd.Player.Location.Y, "north")
 	} else {
-		gd.Player.UpdatePosition(gd.Player.Location.X - spaces,  gd.Player.Location.Y, "north")
+		gd.Player.UpdatePosition(gd.Player.Location.X-spaces, gd.Player.Location.Y, "north")
 	}
-
-	gd.CurrentLevel.UpdatePlayer(gd.Player)
-	gd.DisplayLevel()
 }
 
-func (gd *GameDetails) MoveSouth(spaces int){
+func (gd *GameDetails) MoveSouth(spaces int) {
 
 	//TODO object detection
 
-	if gd.Player.Location.X + spaces >= DISPLAYHEIGHT {
-		gd.Player.UpdatePosition(DISPLAYHEIGHT - 1, gd.Player.Location.Y, "south")
+	if gd.Player.Location.X+spaces >= DISPLAYHEIGHT {
+		gd.Player.UpdatePosition(DISPLAYHEIGHT-1, gd.Player.Location.Y, "south")
 	} else {
-		gd.Player.UpdatePosition(gd.Player.Location.X + spaces,  gd.Player.Location.Y, "south")
+		gd.Player.UpdatePosition(gd.Player.Location.X+spaces, gd.Player.Location.Y, "south")
 	}
-
-	gd.CurrentLevel.UpdatePlayer(gd.Player)
-	gd.DisplayLevel()
 }
 
-func (gd *GameDetails) MoveEast(spaces int){
+func (gd *GameDetails) MoveEast(spaces int) {
 
 	//TODO object detection
 
-	if gd.Player.Location.Y + spaces >= DISPLAYWIDTH {
-		gd.Player.UpdatePosition(gd.Player.Location.X, DISPLAYWIDTH - 1, "east")
+	if gd.Player.Location.Y+spaces >= DISPLAYWIDTH {
+		gd.Player.UpdatePosition(gd.Player.Location.X, DISPLAYWIDTH-1, "east")
 	} else {
-		gd.Player.UpdatePosition(gd.Player.Location.X,  gd.Player.Location.Y + spaces, "east")
+		gd.Player.UpdatePosition(gd.Player.Location.X, gd.Player.Location.Y+spaces, "east")
 	}
-
-	gd.CurrentLevel.UpdatePlayer(gd.Player)
-	gd.DisplayLevel()
 }
 
-func (gd *GameDetails) MoveWest(spaces int){
+func (gd *GameDetails) MoveWest(spaces int) {
 
 	//TODO object detection
 
-	if gd.Player.Location.Y - spaces < 0 {
+	if gd.Player.Location.Y-spaces < 0 {
 		gd.Player.UpdatePosition(gd.Player.Location.X, 0, "west")
 	} else {
-		gd.Player.UpdatePosition(gd.Player.Location.X,  gd.Player.Location.Y - spaces, "west")
+		gd.Player.UpdatePosition(gd.Player.Location.X, gd.Player.Location.Y-spaces, "west")
 	}
-
-	gd.CurrentLevel.UpdatePlayer(gd.Player)
-	gd.DisplayLevel()
 }
 
-
-func (gd *GameDetails) validateScreens(){
+func (gd *GameDetails) validateScreens() {
 	if gd.Screens == nil {
 		gd.Screens = make(map[string]*ScreenDetails)
 	}
 }
 
-func (gd *GameDetails) validateLevels(){
+func (gd *GameDetails) validateLevels() {
 	if gd.Levels == nil {
 		gd.Levels = make(map[string]*LevelDetails)
 	}

@@ -82,4 +82,18 @@ Here you will find details on the map icons.
 ▼ - Looking South
 ◄ - Looking West
 ◊ - Normal
+
+--COMMANDS--
+The following commands are allowed and are broken down to several basic groups.
+Casing of the commands does not matter in this engine. Move, move, MOVE... all
+are equivalent. The <> represents a variable parameter and ** represents opti-
+onal parameters.
+
+--MOVEMENT--
+MOVE <direction> *number of tiles*
+ex. >>move west 2
+
+--DIRECTIONS--
+NORTH, SOUTH, EAST, WEST
+
 |##############################################################################|
