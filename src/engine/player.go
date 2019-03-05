@@ -13,8 +13,8 @@ var(
 	//TODO: Hardcoded directions icon mapping; pull from file
 	playerDirection = map[string] string {
 		"north":"▲", // ▲ - Looking North
-		"south":"►", // ► - Looking East
-		"east":"▼",  // ▼ - Looking South
+		"south":"▼", // ► - Looking East
+		"east":"►",  // ▼ - Looking South
 		"west":"◄",  // ◄ - Looking West
 		"none":"◊",  // ◊ - Normal/Default
 		"":"◊",      // ◊ - Normal/Default
@@ -45,6 +45,7 @@ func (p *PlayerDetails) UpdatePlayerIcon(direction string){
 	udirection := strings.ToLower(direction)
 	if val, found := playerDirection[udirection]; found {
 		p.Icon = val
+		return
 	}
 
 	//TODO: log direction not found
