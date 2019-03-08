@@ -13,6 +13,7 @@ const (
 	ACTION_DELIMITER = " "
 	NO_ACTION        = ""
 	ACTION_MOVE      = "MOVE"
+	ACTION_RUN       = "RUN"
 	ACTION_LOOK      = "LOOK"
 	ACTION_HIDE      = "HIDE"
 )
@@ -31,6 +32,7 @@ func buildActionsMap() {
 	generalActions[GetHash("H")] = displayHelp
 	generalActions[GetHash("Q")] = quitGame
 	generalActions[GetHash(ACTION_MOVE)] = move
+	generalActions[GetHash(ACTION_RUN)] = run
 }
 
 func newGame(game *GameDetails, _ *bool, _ []string) {
@@ -49,6 +51,19 @@ func quitGame(_ *GameDetails, continueRunning *bool, _ []string) {
 	*continueRunning = false
 }
 
+func run(game *GameDetails, _ *bool, vars []string) {
+	switch len(vars) {
+	case 1:
+		game.Move(vars[0], 2)
+	case 2:
+		tileNumber, err := strconv.Atoi(vars[1])
+		check(err)
+		game.Move(vars[0], tileNumber)
+	default:
+		fmt.Println("Invalid command. [run ", vars, "]")
+	}
+}
+
 func move(game *GameDetails, _ *bool, vars []string) {
 	switch len(vars) {
 	case 1:
@@ -58,7 +73,7 @@ func move(game *GameDetails, _ *bool, vars []string) {
 		check(err)
 		game.Move(vars[0], tileNumber)
 	default:
-		fmt.Println("Invalid command. [north ", vars, "]")
+		fmt.Println("Invalid command. [move ", vars, "]")
 	}
 }
 
@@ -84,11 +99,8 @@ func RetreiveGameInput() string {
 }
 
 func HandleGameInput(input string, game *GameDetails, continueRunning *bool) {
-	input = strings.ToUpper(input)
+	input = strings.ToUpper(strings.TrimSpace(input))
 	parts := strings.Split(input, ACTION_DELIMITER)
-
-	fmt.Println(input)
-	fmt.Println(parts)
 
 	switch len(parts) {
 	case 1:
@@ -104,7 +116,7 @@ func HandleGameInput(input string, game *GameDetails, continueRunning *bool) {
 			action(game, continueRunning, parts[1:])
 		} else {
 			//TODO: add logging for incorrect functionality
-			fmt.Println("Command length 2: No action found....")
+			fmt.Println("Action[", input, "] not found....")
 		}
 	}
 }

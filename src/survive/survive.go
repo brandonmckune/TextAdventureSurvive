@@ -23,6 +23,7 @@ func init() {
 }
 
 func main() {
+	engine.HandleGameInput("n", &game, &continueRunning)
 
 	for continueRunning {
 		engine.RetreiveAndHandleGameInput(&game, &continueRunning)

@@ -165,12 +165,12 @@ func (gd *GameDetails) GetLevel(levelName string) *LevelDetails {
 
 	if level, found := gd.Levels[levelName]; found {
 		return level
-	} else {
-		//TODO: Log invalid display
-		panicString := "Level is invalid! Level Name:[" + levelName + "]"
-		//fmt.Println(panicString)
-		panic(panicString)
 	}
+
+	//TODO: Log invalid display
+	panicString := "Level is invalid! Level Name:[" + levelName + "]"
+	//fmt.Println(panicString)
+	panic(panicString)
 }
 
 func (gd *GameDetails) DisplayLevel() {

@@ -11,10 +11,11 @@
             "mode": "debug",
             "program": "${workspaceRoot}/src/survive",
             "env": {
-                "GOPATH":"C:/development/TextAdventureSurvive/"
+                "GOPATH":"C:/Users/bmcku/Dropbox/development/TextAdventureSurvive/"
             },
             "args": [],
-            "showLog":true
+            "showLog":true,
+            "internalConsoleOptions": "openOnSessionStart"
         }
     ]
 }

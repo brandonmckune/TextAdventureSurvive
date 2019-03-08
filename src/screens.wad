@@ -44,9 +44,7 @@ Help::33::
 Here you will find details on the map icons. 
 
 --WALLS--
-═║╔ ╗╚ ╝╠ ╣ ╦ ╩ ╬ - Thich Walls
-─│┌ ┐└ ┘├ ┤┬ ┴ ┼ - Thin Walls
-╒ ╓ ╕ ╖ ╘ ╙ ╞ ╟ ╡ ╢ ╤ ╥ ╧ ╨ ╪ ╫ - Transition Walls
+#
 
 --ENVIRONMENT ITEMS--
 Ŧ - Power Lines
@@ -54,8 +52,8 @@ Here you will find details on the map icons.
 † - Church
 ʬ - Vehicle
 Π - Door
-Ͳ - Big Tree (Think Red Oak)
-ͳ - Small Tree (think sapling)
+T - Big Tree (Think Red Oak)
+t - Small Tree (think sapling)
 Χ - Deseased Organism
 ֍ - Safety
 
@@ -90,8 +88,9 @@ are equivalent. The <> represents a variable parameter and ** represents opti-
 onal parameters.
 
 --MOVEMENT--
-MOVE <direction> *number of tiles*
-ex. >>move west 2
+MOVE <direction> //moves one tile space per round
+ex. >>move west
+RUN <direction>  //runs two tile spaces per round
 
 --DIRECTIONS--
 NORTH, SOUTH, EAST, WEST

@@ -2,21 +2,21 @@ package engine
 
 import (
 	"fmt"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 type LevelDetails struct {
-	Id	               string
+	Id                 string
 	ConnectingLevels   map[string]*LevelDetails
-	Details            [DISPLAYHEIGHT][DISPLAYWIDTH] *TileDetails
+	Details            [DISPLAYHEIGHT][DISPLAYWIDTH]*TileDetails
 	StartPosition      *PositionDetails
 	PlayerLastPosition *PositionDetails
 }
 
 var ()
 
-const(
+const (
 	STARTPOSITION = "startpos"
 )
 
@@ -26,13 +26,13 @@ func init() {
 
 func (d *LevelDetails) VerifyStartPosition() {
 	if d.StartPosition == nil {
-		d.StartPosition = new (PositionDetails)
+		d.StartPosition = new(PositionDetails)
 	}
 }
 
 func (d *LevelDetails) VerifyPlayerLastPosition() {
 	if d.PlayerLastPosition == nil {
-		d.PlayerLastPosition = new (PositionDetails)
+		d.PlayerLastPosition = new(PositionDetails)
 	}
 }
 
@@ -46,24 +46,26 @@ func (d *LevelDetails) LoadRow(row string, rowIndex int) {
 		//panic(panicString)
 	}
 
-	for idx, char := range row {
+	//for idx, char := range row {
+	for idx := 0; idx < len(row); idx++ {
 		if idx >= DISPLAYWIDTH {
+			fmt.Println("idx: ", idx, " Display: ", DISPLAYWIDTH)
 			break
 		}
 
 		tile := new(TileDetails)
-		tile.MapIcon = string(char)
+		tile.MapIcon = string(row[idx : idx+1])
 		tile.AddLocationXY(rowIndex, idx)
 
 		d.Details[rowIndex][idx] = tile
 	}
 }
 
-func (d *LevelDetails) AddStartPosition(pos *PositionDetails){
+func (d *LevelDetails) AddStartPosition(pos *PositionDetails) {
 	d.StartPosition = pos
 }
 
-func (d *LevelDetails) AddStartPositionXY(x int, y int){
+func (d *LevelDetails) AddStartPositionXY(x int, y int) {
 	d.VerifyStartPosition()
 
 	d.StartPosition.X = x
@@ -78,12 +80,12 @@ func (d *LevelDetails) AddConnectingLevel(key string, level *LevelDetails) {
 	//TODO What do I do if it's there? Replace it?
 }
 
-func (d *LevelDetails) ParseAndHandleDetailsString(line string){
+func (d *LevelDetails) ParseAndHandleDetailsString(line string) {
 	parts := strings.Split(line, FILE_DELIMITER)
 	d.ParseAndHandleDetailsArray(parts)
 }
 
-func (d *LevelDetails) ParseAndHandleDetailsArray(parts []string){
+func (d *LevelDetails) ParseAndHandleDetailsArray(parts []string) {
 
 	if parts == nil || len(parts) <= 1 {
 		panic("Invalid parsing for level details")
@@ -100,16 +102,16 @@ func (d *LevelDetails) ParseAndHandleDetailsArray(parts []string){
 
 		switch strings.ToLower(parts[idx]) {
 		case STARTPOSITION:
-			if idx + 2 >= len(parts) {
+			if idx+2 >= len(parts) {
 				panic("Invalid level details string construction.")
 			}
-			
-			x, _ := strconv.Atoi(parts[idx + 1])
-			y, _ := strconv.Atoi(parts[idx + 2])
-			d.AddStartPositionXY(x,y)
+
+			x, _ := strconv.Atoi(parts[idx+1])
+			y, _ := strconv.Atoi(parts[idx+2])
+			d.AddStartPositionXY(x, y)
 			idx = idx + 2
 		}
-		
+
 	}
 }
 
@@ -120,7 +122,7 @@ func (d *LevelDetails) AddPlayer(player *PlayerDetails) {
 	d.Details[player.Location.X][player.Location.Y].AddPlayer(player)
 }
 
-func (d *LevelDetails) UpdatePlayer(player *PlayerDetails){
+func (d *LevelDetails) UpdatePlayer(player *PlayerDetails) {
 	d.VerifyPlayerLastPosition()
 	d.Details[d.PlayerLastPosition.X][d.PlayerLastPosition.Y].RemovePlayer()
 	d.PlayerLastPosition.X = player.Location.X
