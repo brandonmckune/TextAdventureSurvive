@@ -47,12 +47,24 @@ func (gd *GameDetails) Move(direction string, spaces int) *GameDetails {
 
 	switch direction {
 	case NORTH:
+		if spaces < 0 {
+			gd.MoveSouth(-1 * spaces)
+		}
 		gd.MoveNorth(spaces)
 	case SOUTH:
+		if spaces < 0 {
+			gd.MoveNorth(-1 * spaces)
+		}
 		gd.MoveSouth(spaces)
 	case EAST:
+		if spaces < 0 {
+			gd.MoveWest(-1 * spaces)
+		}
 		gd.MoveEast(spaces)
 	case WEST:
+		if spaces < 0 {
+			gd.MoveEast(-1 * spaces)
+		}
 		gd.MoveWest(spaces)
 	default:
 		successful = false
@@ -71,45 +83,68 @@ func (gd *GameDetails) Move(direction string, spaces int) *GameDetails {
 func (gd *GameDetails) MoveNorth(spaces int) {
 
 	//TODO object detection
+	spacesToMove, _ := gd.ObjectInPath(EAST, spaces)
 
-	if gd.Player.Location.X-spaces < 0 {
-		gd.Player.UpdatePosition(0, gd.Player.Location.Y, "north")
+	if gd.Player.Location.Y-spacesToMove < 0 {
+		gd.Player.UpdatePosition(gd.Player.Location.X, 0, "north")
 	} else {
-		gd.Player.UpdatePosition(gd.Player.Location.X-spaces, gd.Player.Location.Y, "north")
+		gd.Player.UpdatePosition(gd.Player.Location.X, gd.Player.Location.Y-spacesToMove, "north")
 	}
 }
 
 func (gd *GameDetails) MoveSouth(spaces int) {
 
 	//TODO object detection
+	spacesToMove, _ := gd.ObjectInPath(EAST, spaces)
 
-	if gd.Player.Location.X+spaces >= DISPLAYHEIGHT {
-		gd.Player.UpdatePosition(DISPLAYHEIGHT-1, gd.Player.Location.Y, "south")
+	if gd.Player.Location.Y+spacesToMove >= DISPLAYHEIGHT {
+		gd.Player.UpdatePosition(gd.Player.Location.X, DISPLAYHEIGHT-1, "south")
 	} else {
-		gd.Player.UpdatePosition(gd.Player.Location.X+spaces, gd.Player.Location.Y, "south")
+		gd.Player.UpdatePosition(gd.Player.Location.X, gd.Player.Location.Y+spacesToMove, "south")
 	}
 }
 
 func (gd *GameDetails) MoveEast(spaces int) {
 
 	//TODO object detection
+	spacesToMove, _ := gd.ObjectInPath(EAST, spaces)
 
-	if gd.Player.Location.Y+spaces >= DISPLAYWIDTH {
-		gd.Player.UpdatePosition(gd.Player.Location.X, DISPLAYWIDTH-1, "east")
+	if gd.Player.Location.X+spacesToMove >= DISPLAYWIDTH {
+		gd.Player.UpdatePosition(DISPLAYWIDTH-1, gd.Player.Location.Y, "east")
 	} else {
-		gd.Player.UpdatePosition(gd.Player.Location.X, gd.Player.Location.Y+spaces, "east")
+		gd.Player.UpdatePosition(gd.Player.Location.X+spacesToMove, gd.Player.Location.Y, "east")
 	}
 }
 
 func (gd *GameDetails) MoveWest(spaces int) {
 
 	//TODO object detection
+	spacesToMove, _ := gd.ObjectInPath(WEST, spaces)
 
-	if gd.Player.Location.Y-spaces < 0 {
-		gd.Player.UpdatePosition(gd.Player.Location.X, 0, "west")
+	if gd.Player.Location.X-spacesToMove < 0 {
+		gd.Player.UpdatePosition(0, gd.Player.Location.Y, "west")
 	} else {
-		gd.Player.UpdatePosition(gd.Player.Location.X, gd.Player.Location.Y-spaces, "west")
+		gd.Player.UpdatePosition(gd.Player.Location.X-spacesToMove, gd.Player.Location.Y, "west")
 	}
+}
+
+func (gd GameDetails) ObjectInPath(direction string, spaces int) (int, bool) {
+	objectInPath := false
+	spacesToMove := 0
+
+	tileVector := gd.CurrentLevel.GetMoveTileVector(gd.Player.Location.X, gd.Player.Location.Y, direction, spaces)
+
+	//fmt.Println(tileVector)
+
+	for idx := 0; idx < len(tileVector); idx++ {
+		if !tileVector[idx].IsMoveBlocker() {
+			spacesToMove++
+		} else {
+			break
+		}
+	}
+
+	return spacesToMove, objectInPath
 }
 
 func (gd *GameDetails) validateScreens() {

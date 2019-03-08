@@ -11,9 +11,24 @@ const (
 var ()
 
 type TileDetails struct {
-	OldIcon  string
-	MapIcon  string
-	Location *PositionDetails
+	OldIcon         string
+	MapIcon         string
+	Location        *PositionDetails
+	IsVisualBlocker bool
+}
+
+func (self TileDetails) IsMoveBlocker() bool {
+	if self.MapIcon == NONPLAYERICON {
+		return false
+	}
+
+	for _, val := range playerDirection {
+		if self.MapIcon == val {
+			return false
+		}
+	}
+
+	return true
 }
 
 func (t *TileDetails) AddPlayer(p *PlayerDetails) {

@@ -119,15 +119,61 @@ func (d *LevelDetails) AddPlayer(player *PlayerDetails) {
 	d.VerifyPlayerLastPosition()
 	d.PlayerLastPosition.X = player.Location.X
 	d.PlayerLastPosition.Y = player.Location.Y
-	d.Details[player.Location.X][player.Location.Y].AddPlayer(player)
+	d.Details[player.Location.Y][player.Location.X].AddPlayer(player)
 }
 
 func (d *LevelDetails) UpdatePlayer(player *PlayerDetails) {
 	d.VerifyPlayerLastPosition()
-	d.Details[d.PlayerLastPosition.X][d.PlayerLastPosition.Y].RemovePlayer()
+	d.Details[d.PlayerLastPosition.Y][d.PlayerLastPosition.X].RemovePlayer()
 	d.PlayerLastPosition.X = player.Location.X
 	d.PlayerLastPosition.Y = player.Location.Y
-	d.Details[player.Location.X][player.Location.Y].AddPlayer(player)
+	d.Details[player.Location.Y][player.Location.X].AddPlayer(player)
+}
+
+func (d *LevelDetails) GetMoveTileVector(startPosX int, startPosY int, direction string, spaces int) []TileDetails {
+	tileVector := make([]TileDetails, spaces)
+	tileVector = append(tileVector, *d.Details[startPosY][startPosX])
+
+	switch direction {
+	case NORTH:
+		for i := 1; i <= spaces; i++ {
+			if startPosY-i >= 0 {
+				tileVector = append(tileVector, *d.Details[startPosY-i][startPosX])
+			} else {
+				i = spaces
+			}
+		}
+	case SOUTH:
+		for i := 1; i <= spaces; i++ {
+			if startPosY+i < DISPLAYHEIGHT {
+				tileVector = append(tileVector, *d.Details[startPosY+i][startPosX])
+			} else {
+				i = spaces
+			}
+		}
+	case EAST:
+		for i := 1; i <= spaces; i++ {
+			if startPosX+i < DISPLAYWIDTH {
+				tileVector = append(tileVector, *d.Details[startPosY][startPosX+i])
+			} else {
+				i = spaces
+			}
+		}
+	case WEST:
+		for i := 1; i <= spaces; i++ {
+			if startPosX-i >= 0 {
+				tileVector = append(tileVector, *d.Details[startPosY][startPosX-i])
+			} else {
+				i = spaces
+			}
+		}
+	default:
+		validDirections := "[" + NORTH + ", " + SOUTH + ", " + EAST + ", " + WEST + "]"
+		fmt.Println("Invalid direction [", direction, "]. Values are ", validDirections)
+		return nil
+	}
+
+	return tileVector
 }
 
 func (d LevelDetails) GetLevel(key string) *LevelDetails {
